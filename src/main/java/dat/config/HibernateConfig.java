@@ -2,6 +2,8 @@ package dat.config;
 
 import dat.entities.Hotel;
 import dat.entities.Room;
+import dat.entities.security.Role;
+import dat.entities.security.User;
 import dat.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -44,6 +46,8 @@ public class HibernateConfig
          // configuration.addAnnotatedClass(Point.class);
         configuration.addAnnotatedClass(Hotel.class);
         configuration.addAnnotatedClass(Room.class);
+        configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Role.class);
 
     }
 
@@ -78,7 +82,7 @@ public class HibernateConfig
 
     private static Properties setBaseProperties(Properties props) {
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-        props.put("hibernate.hbm2ddl.auto", "update");  // set to "update" when in production
+        props.put("hibernate.hbm2ddl.auto", "create");  // set to "update" when in production
         props.put("hibernate.current_session_context_class", "thread");
         props.put("hibernate.show_sql", "false");
         props.put("hibernate.format_sql", "false");
@@ -106,7 +110,7 @@ public class HibernateConfig
 
     private static Properties setTestProperties(Properties props) {
         props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
-        props.put("hibernate.connection.url", "jdbc:tc:postgresql:16.2:///test_db");
+        props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
         props.put("hibernate.archive.autodetection", "hbm,class");
         props.put("hibernate.show_sql", "false");
         props.put("hibernate.hbm2ddl.auto", "create-drop");

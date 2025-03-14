@@ -1,7 +1,6 @@
 package dat.daos;
 
-import dat.entities.Hotel;
-import dat.exceptions.DAOException;
+import dat.exceptions.DaoException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -38,7 +37,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error persisting object to db. ", e);
+            throw new DaoException(401, "Error persisting object to db. ", e);
         }
     }
 
@@ -56,7 +55,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error persisting object to db. ", e);
+            throw new DaoException(401, "Error persisting object to db. ", e);
         }
     }
 
@@ -68,7 +67,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error reading object from db", e);
+            throw new DaoException(401, "Error reading object from db", e);
         }
     }
 
@@ -80,7 +79,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error reading objects from db", e);
+            throw new DaoException(401, "Error reading objects from db", e);
         }
     }
 
@@ -95,7 +94,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error updating object. ", e);
+            throw new DaoException(401, "Error updating object. ", e);
         }
     }
 
@@ -114,7 +113,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error updating object. ", e);
+            throw new DaoException(401, "Error updating object. ", e);
         }
     }
 
@@ -128,7 +127,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error deleting object. ", e);
+            throw new DaoException(401, "Error deleting object. ", e);
         }
     }
 
@@ -143,7 +142,7 @@ public class GenericDAO implements ICrudDAO
         }
         catch (Exception e)
         {
-            throw new DAOException(401, "Error deleting object. ", e);
+            throw new DaoException(401, "Error deleting object. ", e);
         }
     }
 }

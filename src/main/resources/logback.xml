@@ -20,6 +20,10 @@
     </root>
 
     <!-- Adjust log levels for specific packages if needed -->
-    <logger name="app" level="debug" />
+    <logger name="app" level="info" />
+    <logger name="o.hibernate.orm.connections.pooling" level="warn" />
+    <logger name="io.javalin.Javalin" level="info">
+        <appender-ref ref="FILE" />
+    </logger>
 </configuration>
 

@@ -1,7 +1,10 @@
-package dat.rest;
+package dat.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import dat.controllers.security.ISecurityController;
+import dat.controllers.security.SecurityController;
+import dat.entities.security.ISecurityUser;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.config.JavalinConfig;
@@ -14,6 +17,7 @@ public class ApplicationConfig
     private static Javalin app;
     private static JavalinConfig javalinConfig;
     private static ObjectMapper objectMapper = new ObjectMapper();
+    private static ISecurityController controller = new SecurityController();
 
     private ApplicationConfig()
     {
@@ -23,6 +27,14 @@ public class ApplicationConfig
         if(applicationConfig == null){
             applicationConfig = new ApplicationConfig();
         }
+        return applicationConfig;
+    }
+
+    public ApplicationConfig checkSecurityRoles()
+    {
+        app.beforeMatched(controller.authenticate());
+        app.beforeMatched(controller.authorize());
+
         return applicationConfig;
     }
 

@@ -20,7 +20,15 @@
         <hamcrest>3.0</hamcrest>
         <testcontainers.version>1.20.4</testcontainers.version>
         <logback-classic>1.5.16</logback-classic>
+        <jbcrypt.version>0.4</jbcrypt.version>
+        <token.security.version>1.0.4</token.security.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!--  DB    -->
         <dependency>
@@ -41,22 +49,10 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin-bundle</artifactId>
             <version>6.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.16</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--  TESTING      -->
@@ -119,6 +115,18 @@
             <artifactId>json-path</artifactId>
             <version>5.5.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <!--  Security   -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>${jbcrypt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Hartmannsolution</groupId>
+            <artifactId>TokenSecurity</artifactId>
+            <version>${token.security.version}</version>
         </dependency>
 
         <!--  Logging   -->

@@ -19,7 +19,7 @@ public class Room
     private Long id;
     @Column(name = "room_number")
     private String roomNumber;
-    private double price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)

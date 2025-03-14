@@ -2,7 +2,6 @@ package dat.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dat.entities.Hotel;
-import dat.entities.Room;
 import lombok.*;
 
 import java.util.List;

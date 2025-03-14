@@ -20,6 +20,7 @@ public class HotelController implements IController
     private final GenericDAO genericDAO;
 
     private static Logger logger = LoggerFactory.getLogger(HotelController.class);
+
     public HotelController(EntityManagerFactory emf)
     {
         genericDAO = GenericDAO.getInstance(emf);
@@ -29,6 +30,7 @@ public class HotelController implements IController
     {
         try
         {
+            logger.info("getAllHotels called");
             List<Hotel> hotels = genericDAO.findAll(Hotel.class);
             List<HotelDTO> hotelDTOs = hotels.stream()
                     .map(HotelDTO::new)
@@ -37,7 +39,6 @@ public class HotelController implements IController
         }
         catch (Exception e)
         {
-            logger.error("Error getting hotels", e);
             ErrorMessage error = new ErrorMessage("Error getting hotels");
             ctx.status(404).json(error);
         }
@@ -58,29 +59,6 @@ public class HotelController implements IController
             ctx.status(404).json(error);
         }
     }
-
-//    public void createHotel(Context ctx) {
-//        try {
-//            logger.info("Received request to create hotel");
-//
-//            HotelDTO incomingHotel = ctx.bodyAsClass(HotelDTO.class);
-//            logger.info("Parsed HotelDTO: {}", incomingHotel);
-//
-//            Hotel hotel = new Hotel(incomingHotel);
-//            logger.info("Converted to Hotel entity: {}", hotel);
-//
-//            Hotel createdHotel = genericDAO.create(hotel);
-//            logger.info("Created Hotel entity: {}", createdHotel);
-//
-//            ctx.json(new HotelDTO(createdHotel));
-//            logger.info("Response sent with created HotelDTO");
-//        } catch (Exception e) {
-//            logger.error("Error creating hotel", e);
-//            ErrorMessage error = new ErrorMessage("Error creating hotel");
-//            ctx.status(400).json(error);
-//        }
-//    }
-
 
     public void createHotel(Context ctx) {
         try {
@@ -139,12 +117,13 @@ public class HotelController implements IController
 
     public void addRoomToHotel(Context ctx) {
         try {
-            long hotelId = Long.parseLong(ctx.pathParam("id"));
+            long hotelId = Long.parseLong(ctx.pathParam("hotelid"));
             RoomDTO incomingRoomDTO = ctx.bodyAsClass(RoomDTO.class);
 
             // Find the existing hotel
             Hotel hotel = genericDAO.read(Hotel.class, hotelId);
             if (hotel == null) {
+                logger.error("No hotel with that id" + hotelId);
                 ctx.status(404).json(new ErrorMessage("Hotel not found"));
                 return;
             }
@@ -161,6 +140,7 @@ public class HotelController implements IController
 
             ctx.status(201).json(new RoomDTO(room));
         } catch (Exception e) {
+            logger.error("Error adding room to hotel", e);
             ctx.status(400).json(new ErrorMessage("Error adding room to hotel"));
         }
     }
@@ -168,12 +148,12 @@ public class HotelController implements IController
 
     public void deleteRoom(Context ctx) {
         try {
-            long hotelId = Long.parseLong(ctx.pathParam("id"));
             long roomId = Long.parseLong(ctx.pathParam("id"));
 
             // Find the hotel and room
-            Hotel hotel = genericDAO.read(Hotel.class, hotelId);
             Room room = genericDAO.read(Room.class, roomId);
+            long hotelId = room.getHotel().getId();
+            Hotel hotel = genericDAO.read(Hotel.class, hotelId);
 
             if (hotel == null) {
                 ctx.status(404).json(new ErrorMessage("Hotel not found"));
@@ -198,7 +178,7 @@ public class HotelController implements IController
 
     public void getRoomsForHotel(Context ctx) {
         try {
-            long hotelId = Long.parseLong(ctx.pathParam("id"));
+            long hotelId = Long.parseLong(ctx.pathParam("hotelid"));
 
             // Find the hotel
             Hotel hotel = genericDAO.read(Hotel.class, hotelId);

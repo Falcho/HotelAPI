@@ -36,12 +36,10 @@ public class ReadHotelsFromJson
                     genericDao.create(room);
 
                 }
-
+                    //emf.close();
             }
-            emf.close();
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }

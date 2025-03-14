@@ -1,40 +1,67 @@
 package dat.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dat.controllers.HotelController;
+import dat.controllers.security.SecurityController;
+import dat.enums.Roles;
 import io.javalin.apibuilder.EndpointGroup;
-import lombok.Data;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+public class Routes
+{
+    private static HotelController hotelController;
+    private static SecurityController securityController;
+    static ObjectMapper om = new ObjectMapper();
 
-public class Routes {
-    private static HotelController controller;
-
-    public Routes(HotelController controller) {
-        Routes.controller = controller;
+    public Routes(HotelController hotelController, SecurityController securityController)
+    {
+        Routes.hotelController = hotelController;
+        Routes.securityController = securityController;
     }
 
-    public static EndpointGroup getRoutes() {
-        return () -> {
-            path("hotel", () -> {
-                get("/", controller::getAllHotels);
-                get("/{id}", controller::getHotelById);
-                post("/", controller::createHotel);
-                put("/{id}", controller::updateHotel);
-                delete("/{id}", controller::deleteHotel);
+    public static EndpointGroup getRoutes()
+    {
+        return () ->
+        {
+            path("hotel", () ->
+            {
+                get("/", hotelController::getAllHotels);
+                get("/{id}", hotelController::getHotelById);
+                post("/", hotelController::createHotel);
+                put("/{id}", hotelController::updateHotel);
+                delete("/{id}", hotelController::deleteHotel);
             });
-            path("room", () -> {
-                post("/", controller::addRoomToHotel);
-                delete("/{id}", controller::deleteRoom);
+            path("room", () ->
+            {
+                post("/{hotelid}", hotelController::addRoomToHotel);
+                delete("/{id}", hotelController::deleteRoom);
             });
-            path("hotel/{id}/rooms", () -> {
-                get(controller::getRoomsForHotel);
+            path("hotel", () ->
+            {
+                get("/{hotelid}/rooms", hotelController::getRoomsForHotel);
+            });
+            path("/auth", () ->
+            {
+                post("/register", securityController.register());
+                post("/login", securityController.login());
+            });
+            path("secured", () ->
+            {
+                get("demo", ctx ->
+                        ctx.json(om.createObjectNode().put("demo", "secured")), Roles.USER);
+
             });
         };
     }
 
-    public static void setController(HotelController controller)
+    public static void setHotelController(HotelController hController)
     {
-        Routes.controller = controller;
+        Routes.hotelController = hController;
+    }
+
+    public static void setSecurityController(SecurityController sController)
+    {
+        Routes.securityController = sController;
     }
 }
