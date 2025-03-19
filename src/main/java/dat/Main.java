@@ -19,7 +19,7 @@ public class Main {
         Routes.setHotelController(hotelController);
         Routes.setSecurityController(securityController);
 
-        Populator.populate(args);
+        //Populator.populate(args);
 
         ApplicationConfig
                 .getInstance()

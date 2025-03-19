@@ -12,10 +12,10 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoomDTO
 {
-    private long id;
-    private long hotelId;
+    private Long id;
+    private Long hotelId;
     private String roomNumber;
-    private double price;
+    private Double price;
 
 
     public RoomDTO(Room room)

@@ -44,5 +44,5 @@ Content-Type: application/json
 
 ###
 GET http://localhost:7070/api/secured/demo
-Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hdGhpYXMgRmFsY2hhbVwiIiwic3ViIjoiRmFsY2hvIiwiZXhwIjoxNzQxOTQ4MzIzLCJyb2xlcyI6InVzZXIiLCJ1c2VybmFtZSI6IkZhbGNobyJ9.ZdMZpkB3MAlNKWkfwDZPT5RPgLXnb8LvXD_eQo68ZGM"
+Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hdGhpYXMgRmFsY2hhbVwiIiwic3ViIjoiRmFsY2hvIiwiZXhwIjoxNzQyMzczNTA0LCJyb2xlcyI6IlVTRVIiLCJ1c2VybmFtZSI6IkZhbGNobyJ9.-ORGhT9o8YD_fjCzuZPrN8dBIrKsGzb-W6zYhuYjb3I"
 

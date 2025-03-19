@@ -39,7 +39,7 @@ public class HotelController implements IController
         }
         catch (Exception e)
         {
-            ErrorMessage error = new ErrorMessage("Error getting hotels");
+            ErrorMessage error = new ErrorMessage("Error getting hotels" + e.getMessage());
             ctx.status(404).json(error);
         }
     }

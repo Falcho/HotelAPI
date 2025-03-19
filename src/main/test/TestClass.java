@@ -1,5 +1,6 @@
 import dat.config.HibernateConfig;
 import dat.controllers.HotelController;
+import dat.controllers.security.SecurityController;
 import dat.dtos.HotelDTO;
 
 import dat.dtos.RoomDTO;
@@ -10,17 +11,13 @@ import dat.rest.Routes;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
-
 
 public class TestClass
 {
@@ -32,6 +29,7 @@ public class TestClass
     static void setupAll()
     {
         Routes.setHotelController(new HotelController(emf));
+        Routes.setSecurityController(new SecurityController());
         ApplicationConfig.getInstance()
                 .initiateServer()
                 .setRoute(Routes.getRoutes())
@@ -41,6 +39,7 @@ public class TestClass
         RestAssured.baseURI = "http://localhost:6060/api";
 
     }
+
     @BeforeEach
     void setup()
     {
@@ -79,11 +78,11 @@ public class TestClass
     }
 
 
-
     @Test
     void getAllHotelsTest()
     {
         int listSize = 2;
+        System.out.println(testHotel2);
 
         given()
                 .when()
@@ -108,7 +107,7 @@ public class TestClass
     }
 
     @Test
-    void createHotelTest ()
+    void createHotelTest()
     {
         HotelDTO hotelDTO = new HotelDTO();
         List<RoomDTO> roomDTOs = new ArrayList<>();
@@ -117,7 +116,7 @@ public class TestClass
 
         RoomDTO roomDTO = new RoomDTO();
         roomDTO.setRoomNumber("1");
-        roomDTO.setPrice(100);
+        roomDTO.setPrice(100D);
 
         roomDTOs.add(roomDTO);
         hotelDTO.setRooms(roomDTOs);
@@ -157,7 +156,7 @@ public class TestClass
         given()
                 .body(room)
                 .when()
-                .post("/room/"+testHotel1.getId())
+                .post("/room/" + testHotel1.getId())
                 .then()
                 .statusCode(201)
                 .body("roomNumber", equalTo(room.getRoomNumber()))
@@ -170,16 +169,17 @@ public class TestClass
 
         given()
                 .when()
-                .delete("/room/"+testRoom2.getId())
+                .delete("/room/" + testRoom2.getId())
                 .then()
                 .statusCode(204);
     }
 
     @Test
-    void getRoomsForHotelTest() {
+    void getRoomsForHotelTest()
+    {
         given()
                 .when()
-                .get("/hotel/"+testHotel2.getId()+"/rooms")
+                .get("/hotel/" + testHotel2.getId() + "/rooms")
                 .then()
                 .statusCode(200)
                 .body("size()", equalTo(2));
