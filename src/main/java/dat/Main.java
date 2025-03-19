@@ -5,7 +5,6 @@ import dat.controllers.HotelController;
 import dat.config.ApplicationConfig;
 import dat.controllers.security.SecurityController;
 import dat.services.Populator;
-import dat.services.ReadHotelsFromJson;
 import jakarta.persistence.EntityManagerFactory;
 import dat.rest.Routes;
 
@@ -19,7 +18,7 @@ public class Main {
         Routes.setHotelController(hotelController);
         Routes.setSecurityController(securityController);
 
-        //Populator.populate(args);
+        Populator.populate(args);
 
         ApplicationConfig
                 .getInstance()
