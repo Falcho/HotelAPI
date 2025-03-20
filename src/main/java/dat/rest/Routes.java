@@ -26,25 +26,25 @@ public class Routes
         {
             path("hotel", () ->
             {
-                get("/", hotelController::getAllHotels);
-                get("/{id}", hotelController::getHotelById);
-                post("/", hotelController::createHotel);
-                put("/{id}", hotelController::updateHotel);
-                delete("/{id}", hotelController::deleteHotel);
+                get("/", hotelController::getAllHotels, Roles.USER);
+                get("/{id}", hotelController::getHotelById, Roles.USER);
+                post("/", hotelController::createHotel, Roles.ADMIN);
+                put("/{id}", hotelController::updateHotel, Roles.ADMIN);
+                delete("/{id}", hotelController::deleteHotel, Roles.ADMIN);
             });
             path("room", () ->
             {
-                post("/{hotelid}", hotelController::addRoomToHotel);
-                delete("/{id}", hotelController::deleteRoom);
+                post("/{hotelid}", hotelController::addRoomToHotel, Roles.ADMIN);
+                delete("/{id}", hotelController::deleteRoom, Roles.ADMIN);
             });
             path("hotel", () ->
             {
-                get("/{hotelid}/rooms", hotelController::getRoomsForHotel);
+                get("/{hotelid}/rooms", hotelController::getRoomsForHotel, Roles.USER);
             });
             path("/auth", () ->
             {
-                post("/register", securityController.register());
-                post("/login", securityController.login());
+                post("/register", securityController.register(), Roles.ANYONE);
+                post("/login", securityController.login(), Roles.ANYONE);
                 get("/healthcheck", securityController::healthCheck, Roles.ANYONE);
             });
             path("secured", () ->
